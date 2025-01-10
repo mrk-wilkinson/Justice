@@ -1,36 +1,83 @@
 use serde::{Serialize, Deserialize};
+pub mod actions;
+use actions::{RequestActionType, ResponseActionType};
+
+
 
 pub fn add(left: u64, right: u64) -> u64 {
     left + right
 }
-
 #[derive(Serialize, Deserialize, Debug)]
-pub struct Request {
-    pub implantid: String,
-    pub messageheaders: Vec<String>,
-    pub messagecontent: String,
-    pub timestamp: u64,
+pub struct C2Response {
+    pub message_headers: ResponseHeaders,
+    pub message_content: String,
 }
-
-impl Request {
-    pub fn new(implantid: String, messageheaders: Vec<String>, messagecontent: String, timestamp: u64) -> Self {
-        Request {
-            implantid,
-            messageheaders,
-            messagecontent,
-            timestamp,
+impl C2Response {
+    pub fn new(implant_id: String, timestamp: u64, action_type: ResponseActionType, message_content: String) -> Self {
+        C2Response {
+            message_headers: ResponseHeaders::new(implant_id, timestamp, action_type),
+            message_content,
         }
     }
 }
 #[derive(Serialize, Deserialize, Debug)]
-pub struct Keystroke {
-    pub key: String,
+pub struct ResponseHeaders {
+    pub implant_id: String,
+    pub timestamp: u64,
+    pub action_type: ResponseActionType,
+}
+
+impl ResponseHeaders {
+    pub fn new(implant_id: String, timestamp: u64, action_type: ResponseActionType) -> Self {
+        ResponseHeaders {
+            implant_id,
+            timestamp,
+            action_type,
+        }
+    }
+}
+
+
+#[derive(Serialize, Deserialize, Debug)]
+pub struct RequestHeaders {
+    pub implant_id: String,
+    pub timestamp: u64,
+    pub action_type: RequestActionType,
+}
+
+impl RequestHeaders {
+    pub fn new(implant_id: String, timestamp: u64, action_type: RequestActionType) -> Self {
+        RequestHeaders {
+            implant_id,
+            timestamp,
+            action_type,
+        }
+    }
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+pub struct C2Request {
+    pub message_headers: RequestHeaders,
+    pub message_content: String,
+}
+
+impl C2Request {
+    pub fn new(message_headers: RequestHeaders, message_content: String) -> Self {
+        C2Request {
+            message_headers,
+            message_content,
+        }
+    }
+}
+#[derive(Serialize, Deserialize, Debug)]
+pub struct Keystrokes {
+    pub keys: Vec<String>,
     pub timestamp: u64,
 }
 
-impl Keystroke {
-    pub fn new(key: String, timestamp: u64) -> Self {
-        Keystroke { key, timestamp }
+impl Keystrokes {
+    pub fn new(keys: Vec<String>, timestamp: u64) -> Self {
+        Keystrokes { keys, timestamp }
     }
 }
 
