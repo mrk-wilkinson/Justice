@@ -2,7 +2,21 @@ use serde::{Serialize, Deserialize};
 pub mod actions;
 use actions::{RequestActionType, ResponseActionType};
 
-
+pub struct Inmate {
+    rowid: Option<i64>,
+    implant_id: Option<String>,
+    implant_type: Option<String>,
+    implant_version: Option<String>,
+    implant_os: Option<String>,
+    implant_arch: Option<String>,
+    implant_hostname: Option<String>,
+    implant_username: Option<String>,
+    implant_ip: Option<String>,
+    implant_pid: Option<i64>,
+    implant_last_checkin: Option<u32>,
+    pending_instruct: Option<String>,
+    pending_instruct_type: Option<ResponseActionType>,
+}
 
 pub fn add(left: u64, right: u64) -> u64 {
     left + right
