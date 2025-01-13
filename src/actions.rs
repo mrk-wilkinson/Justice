@@ -43,6 +43,7 @@ impl FromStr for c2_actions {
             "SystemInfo" => Ok(c2_actions::SystemInfo),
             "FileUpload" => Ok(c2_actions::FileUpload),
             "Wait" => Ok(c2_actions::Wait),
+            "wait" => Ok(c2_actions::Wait),
             _ => Err(()),
         }
     }

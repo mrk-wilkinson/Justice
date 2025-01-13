@@ -29,7 +29,7 @@ impl PostRequest {
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Inmate {
-    pub rowid: i32,
+    pub rowid: u32,
     pub os: String,
     pub hostname: String,
     pub ip: String,
