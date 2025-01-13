@@ -34,6 +34,17 @@ impl Clone for c2_actions {
         *self
     }
 }
+impl From<std::string::String> for c2_actions {
+    fn from(action: std::string::String) -> Self {
+        match action.as_str() {
+            "ShellCommand" => c2_actions::ShellCommand,
+            "SystemInfo" => c2_actions::SystemInfo,
+            "FileUpload" => c2_actions::FileUpload,
+            "Wait" => c2_actions::Wait,
+            _ => c2_actions::Wait,
+        }
+    }
+}
 impl FromStr for c2_actions {
     type Err = ();
 
