@@ -34,6 +34,36 @@ pub struct PostRequestHeaders {
     pub action_type: c2_actions,
     pub action_parameters: String,
 }
+impl PostRequestHeaders {
+    pub fn new(timestamp: u64, action_type: c2_actions, action_parameters: String) -> Self {
+        PostRequestHeaders {
+            timestamp,
+            action_type,
+            action_parameters,
+        }
+    }
+    pub fn from_post_request(post_req: PostRequest) -> Self {
+        PostRequestHeaders {
+            timestamp: post_req.timestamp,
+            action_type: post_req.action_type,
+            action_parameters: post_req.action_parameters,
+        }
+    }
+    pub fn clone(&self) -> Self {
+        PostRequestHeaders {
+            timestamp: self.timestamp,
+            action_type: self.action_type,
+            action_parameters: self.action_parameters.clone(),
+        }
+    }
+    pub fn copy(&self) -> Self {
+        PostRequestHeaders {
+            timestamp: self.timestamp,
+            action_type: self.action_type,
+            action_parameters: self.action_parameters.clone(),
+        }
+    }
+}
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Inmate {
